@@ -184,91 +184,154 @@ if(prompt("What is your nickname on Instagram? 💗")!==PASSWORD){
 <div id="finalText"><p>I love you, NAME.</p></div>
 
 <script>
-const sections=document.querySelectorAll("section");
-const bgm=document.getElementById("bgm");
-const musicBtn=document.getElementById("musicBtn");
-const reply=document.getElementById("reply");
-const hugBox=document.getElementById("hugBox");
-const hugText=document.getElementById("hugText");
-const alignText=document.getElementById("alignText");
-const findme=document.getElementById("findme");
-const curtains=document.getElementById("curtains");
-const leftCurtain=document.getElementById("leftCurtain");
-const rightCurtain=document.getElementById("rightCurtain");
-const finalText=document.getElementById("finalText");
-const envelope=document.getElementById("envelope");
+const sections = document.querySelectorAll("section");
+let i = 0;
 
-let i=0;
-function show(n){ if(n>=0 && n<sections.length){ sections.forEach(s=>s.classList.remove("active")); sections[n].classList.add("active"); } }
-function next(){ if(i<sections.length-1) show(++i); }
-
-function openEnvelope(){ envelope.classList.add("open"); bgm.play().catch(()=>{}); setTimeout(next,900); }
-function respond(t){ reply.innerText=t; setTimeout(next,1200); }
-
-function img(b,s,c){ b.parentElement.innerHTML=`<img src="${s}"><p>${c}</p>`; setTimeout(next,1500); }
-function vid(b,s,c){ b.parentElement.innerHTML=`<video src="${s}" autoplay muted playsinline controls></video><p>${c}</p>`; setTimeout(next,2500); }
-
-function doubleVideo(b){
-  b.parentElement.innerHTML=`
-    <video id="seqVideo" src="v3.mp4" autoplay muted playsinline controls></video>
-    <p id="seqCaption">This part matters.</p>`;
-  const v=document.getElementById("seqVideo");
-  const c=document.getElementById("seqCaption");
-  v.onended=()=>{
-    v.src="v4.mp4";
-    c.innerText="And this too.";
-    v.play();
-    v.onended=()=>setTimeout(next,1500);
-  };
+function show(n){
+  sections.forEach(s => s.classList.remove("active"));
+  sections[n].classList.add("active");
 }
 
-function hug(){ hugBox.classList.add("squeeze"); hugText.innerText="This is me."; setTimeout(next,1200); }
-
-/* Hearts – touch + mouse */
-const drag=document.getElementById("draggable");
-const target=document.getElementById("target");
-let dragging=false;
-
-function moveHeart(x,y){
-  drag.style.left=x-20+"px";
-  drag.style.top=y-20+"px";
-  if(Math.abs(drag.offsetLeft-target.offsetLeft)<30 &&
-     Math.abs(drag.offsetTop-target.offsetTop)<30){
-    alignText.innerText="We always find our way back.";
-    setTimeout(next,1500);
+function next(){
+  if(i < sections.length - 1){
+    i++;
+    show(i);
   }
 }
 
-drag.addEventListener("touchmove",e=>{
-  const t=e.touches[0];
-  moveHeart(t.clientX,t.clientY);
+/* Envelope */
+function openEnvelope(){
+  envelope.classList.add("open");
+  bgm.play().catch(()=>{});
+}
+
+/* Mood */
+function respond(t){
+  reply.innerText = t;
+}
+
+/* Image memory */
+function img(btn, src, cap){
+  btn.parentElement.innerHTML = `
+    <img src="${src}">
+    <p>${cap}</p>
+    <button onclick="next()">Next</button>
+  `;
+}
+
+/* Video memory */
+function vid(btn, src, cap){
+  btn.parentElement.innerHTML = `
+    <video src="${src}" controls playsinline></video>
+    <p>${cap}</p>
+    <button onclick="next()">Next</button>
+  `;
+}
+
+/* Sequential videos */
+function doubleVideo(btn){
+  btn.parentElement.innerHTML = `
+    <video id="seqV" src="v3.mp4" controls playsinline></video>
+    <p id="seqC">This part matters.</p>
+    <button id="seqNext" disabled>Next</button>
+  `;
+
+  const v = document.getElementById("seqV");
+  const c = document.getElementById("seqC");
+  const nextBtn = document.getElementById("seqNext");
+
+  v.onended = () => {
+    v.src = "v4.mp4";
+    c.innerText = "And this too.";
+    v.play();
+    v.onended = () => {
+      nextBtn.disabled = false;
+      nextBtn.onclick = next;
+    };
+  };
+}
+
+/* Hug */
+function hug(){
+  hugBox.classList.add("squeeze");
+  hugText.innerText = "This is me holding you.";
+}
+
+/* Heart game */
+const drag = document.getElementById("draggable");
+const target = document.getElementById("target");
+
+function checkHeart(){
+  if(Math.abs(drag.offsetLeft - target.offsetLeft) < 30 &&
+     Math.abs(drag.offsetTop - target.offsetTop) < 30){
+    alignText.innerText = "We always find our way back.";
+    const btn = document.createElement("button");
+    btn.innerText = "Next";
+    btn.onclick = next;
+    alignText.appendChild(document.createElement("br"));
+    alignText.appendChild(btn);
+  }
+}
+
+drag.addEventListener("touchmove", e => {
+  const t = e.touches[0];
+  drag.style.left = t.clientX - 20 + "px";
+  drag.style.top  = t.clientY - 20 + "px";
+  checkHeart();
 });
-drag.addEventListener("mousedown",()=>dragging=true);
-document.addEventListener("mousemove",e=>{ if(dragging) moveHeart(e.clientX,e.clientY); });
-document.addEventListener("mouseup",()=>dragging=false);
+
+drag.addEventListener("mousedown", () => dragging = true);
+document.addEventListener("mousemove", e => {
+  if(dragging){
+    drag.style.left = e.clientX - 20 + "px";
+    drag.style.top  = e.clientY - 20 + "px";
+    checkHeart();
+  }
+});
+document.addEventListener("mouseup", () => dragging = false);
 
 /* Find me */
-let taps=0;
+let taps = 0;
 for(let j=0;j<10;j++){
-  const d=document.createElement("div");
-  d.className="dot";
-  d.style.left=Math.random()*80+"%";
-  d.style.top=Math.random()*60+30+"%";
-  d.onclick=()=>{ taps++; if(taps===4) setTimeout(next,1200); else d.style.opacity=0; };
+  const d = document.createElement("div");
+  d.className = "dot";
+  d.style.left = Math.random()*80+"%";
+  d.style.top = Math.random()*60+30+"%";
+  d.onclick = () => {
+    taps++;
+    d.style.opacity = 0;
+    if(taps === 4){
+      const btn = document.createElement("button");
+      btn.innerText = "Next";
+      btn.onclick = next;
+      findme.appendChild(btn);
+    }
+  };
   findme.appendChild(d);
 }
 
-function finalUnlock(b,s){
-  b.parentElement.innerHTML=`<img src="${s}">`;
-  setTimeout(()=>{
-    curtains.style.display="block";
-    leftCurtain.classList.add("closeLeft");
-    rightCurtain.classList.add("closeRight");
-    setTimeout(()=>finalText.style.display="flex",1200);
-  },1500);
+/* Final */
+function finalUnlock(btn, src){
+  btn.parentElement.innerHTML = `
+    <img src="${src}">
+    <button onclick="finish()">Finish</button>
+  `;
 }
 
-musicBtn.onclick=()=>{ bgm.paused?bgm.play():bgm.pause(); };
+function finish(){
+  curtains.style.display = "block";
+  leftCurtain.classList.add("closeLeft");
+  rightCurtain.classList.add("closeRight");
+  setTimeout(() => finalText.style.display="flex", 1200);
+}
+
+/* Music */
+musicBtn.onclick = () => {
+  bgm.paused ? bgm.play() : bgm.pause();
+};
+
+/* Start */
+show(0);
 </script>
 
 </body>
