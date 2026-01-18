@@ -215,6 +215,7 @@ const finalText = document.getElementById("finalText");
 const musicBtn = document.getElementById("musicBtn");
 
 let i = 0;
+let dragging = false;
 
 
 function show(n){
@@ -250,7 +251,17 @@ function openEnvelope(){
 /* Mood */
 function respond(t){
   reply.innerText = t;
+
+  if(!document.getElementById("moodNext")){
+    const btn = document.createElement("button");
+    btn.id = "moodNext";
+    btn.innerText = "Next";
+    btn.onclick = next;
+    reply.appendChild(document.createElement("br"));
+    reply.appendChild(btn);
+  }
 }
+
 
 /* Image memory */
 function img(btn, src, cap){
@@ -303,9 +314,14 @@ function hug(){
 const drag = document.getElementById("draggable");
 const target = document.getElementById("target");
 
+let heartDone = false;
+
 function checkHeart(){
+  if(heartDone) return;
+
   if(Math.abs(drag.offsetLeft - target.offsetLeft) < 30 &&
      Math.abs(drag.offsetTop - target.offsetTop) < 30){
+    heartDone = true;
     alignText.innerText = "We always find our way back.";
     const btn = document.createElement("button");
     btn.innerText = "Next";
@@ -314,6 +330,7 @@ function checkHeart(){
     alignText.appendChild(btn);
   }
 }
+
 
 drag.addEventListener("touchmove", e => {
   const t = e.touches[0];
