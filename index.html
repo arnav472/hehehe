@@ -1,7 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>For NAME ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Dancing Script', cursive;
+  background: #fdeff4;
+  color: #333;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+section {
+  min-height: 100vh;
+  padding: 24px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+section.active { display: flex; }
+
+button {
+  padding: 12px 22px;
+  margin: 10px;
+  border: none;
+  border-radius: 24px;
+  font-size: 18px;
+  background: #ff8fab;
+  color: white;
+  cursor: pointer;
+}
+
+/* Envelope */
+#envelope {
+  width: 200px;
+  height: 120px;
+  background: #ffb3c6;
+  border-radius: 10px;
+  position: relative;
+}
+#flap {
+  position: absolute;
+  width: 100%;
+  height: 60px;
+  background: #ff8fab;
+  transform-origin: top;
+  transition: transform 0.8s ease;
+}
+.open #flap { transform: rotateX(180deg); }
+
+/* Memory */
+.memory {
+  border: 2px dashed #ffb3c6;
+  padding: 20px;
+  border-radius: 16px;
+}
+.memory img,
+.memory video {
+  max-width: 90%;
+  border-radius: 14px;
+  margin-top: 12px;
+}
+
+/* Hug */
+#hugBox {
+  background: #ffe5ec;
+  padding: 40px;
+  border-radius: 20px;
+  transition: transform 0.3s ease;
+}
+.squeeze { transform: scale(0.94); }
+
+/* Heart alignment */
+#alignArea {
+  position: relative;
+  height: 200px;
+  width: 100%;
+}
+.align-heart {
+  position: absolute;
+  font-size: 40px;
+}
+#target { top: 80px; left: 50%; transform: translateX(-50%); }
+#draggable { top: 20px; left: 20px; cursor: grab; }
+
+/* Find me */
+.dot {
+  width: 20px;
+  height: 20px;
+  background: #ffb3c6;
+  border-radius: 50%;
+  position: absolute;
+}
+
+/* Music button */
+#musicBtn {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 999;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #ff8fab;
+  color: white;
+  font-size: 18px;
+}
+
+/* Curtains */
+#curtains {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 1000;
+}
+.curtain {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  background: #2b2b2b;
+}
+#leftCurtain { left: -50%; }
+#rightCurtain { right: -50%; }
+
+.closeLeft { animation: closeLeft 1.2s forwards; }
+.closeRight { animation: closeRight 1.2s forwards; }
+
+@keyframes closeLeft { to { left: 0; } }
+@keyframes closeRight { to { right: 0; } }
+
+#finalText {
+  position: fixed;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 28px;
+  z-index: 1100;
+  padding: 24px;
+}
+</style>
+</head>
+
+<body>
+
+<button id="musicBtn">🎵</button>
+
 <script>
-/* =====================
-   SAFE DOM REFERENCES
-===================== */
+const PASSWORD = "KUCHIPUCHIIIII";
+const userPass = prompt("What is your nickname on Instagram? 💗");
+if (userPass !== PASSWORD) {
+  document.body.innerHTML = "<h2 style='margin-top:40vh'>Hmm… that’s not it.</h2>";
+}
+</script>
+
+<audio id="bgm" loop>
+  <source src="https://files.catbox.moe/1l7xmn.mp3" type="audio/mpeg">
+</audio>
+
+<!-- 1 -->
+<section class="active">
+  <div id="envelope"><div id="flap"></div></div>
+  <p>Tap to open</p>
+  <button onclick="openEnvelope()">Open</button>
+</section>
+
+<!-- 2 -->
+<section>
+  <p>Hey NAME,<br><br>This is my way of being close to you today.</p>
+  <button onclick="next()">Continue</button>
+</section>
+
+<!-- 3 -->
+<section>
+  <p>How are you feeling right now?</p>
+  <button onclick="respond('That makes me smile.')">Happy</button>
+  <button onclick="respond('You deserve rest.')">Tired</button>
+  <button onclick="respond('I miss you too.')">Missing you</button>
+  <p id="reply"></p>
+</section>
+
+<!-- 4 -->
+<section class="memory">
+  <p>There’s a memory here.</p>
+  <button onclick="unlock(this,'img1.jpg')">Unlock</button>
+</section>
+
+<!-- 5 -->
+<section>
+  <div id="hugBox">
+    <button onclick="hug()">Hug me</button>
+    <p id="hugText"></p>
+  </div>
+</section>
+
+<!-- 6 VIDEO -->
+<section class="memory">
+  <p>There’s a memory here.</p>
+  <button onclick="unlockVideo(this,'video2.mp4')">Unlock</button>
+</section>
+
+<!-- 7 -->
+<section>
+  <p>Bring us together.</p>
+  <div id="alignArea">
+    <div id="target" class="align-heart">❤️</div>
+    <div id="draggable" class="align-heart">❤️</div>
+  </div>
+  <p id="alignText"></p>
+</section>
+
+<!-- 8 -->
+<section class="memory">
+  <p>There’s a memory here.</p>
+  <button onclick="unlock(this,'img3.jpg')">Unlock</button>
+</section>
+
+<!-- 9 MINI GAME -->
+<section id="findme">
+  <p>I’m somewhere here.<br>Take your time.</p>
+</section>
+
+<!-- 10 EXTRA GIF / VIDEO -->
+<section class="memory">
+  <p>I wanted you to see this too.</p>
+  <button onclick="unlockVideo(this,'extra.mp4')">Unlock</button>
+</section>
+
+<!-- 11 -->
+<section class="memory">
+  <p>There’s a memory here.</p>
+  <button onclick="unlock(this,'img4.jpg')">Unlock</button>
+</section>
+
+<!-- 12 FINAL -->
+<section class="memory">
+  <p>One last memory.</p>
+  <button onclick="finalUnlock(this,'img5.jpg')">Unlock</button>
+</section>
+
+<div id="curtains">
+  <div id="leftCurtain" class="curtain"></div>
+  <div id="rightCurtain" class="curtain"></div>
+</div>
+
+<div id="finalText">
+  <p>No distance is too big for us.<br>I love you, NAME.</p>
+</div>
+
+<script>
 const sections = document.querySelectorAll("section");
 const envelope = document.getElementById("envelope");
 const bgm = document.getElementById("bgm");
@@ -16,144 +273,96 @@ const rightCurtain = document.getElementById("rightCurtain");
 const finalText = document.getElementById("finalText");
 const musicBtn = document.getElementById("musicBtn");
 
-/* =====================
-   SECTION NAVIGATION
-===================== */
 let index = 0;
-
-function show(i) {
-  if (i < 0 || i >= sections.length) return;
-  sections.forEach(s => s.classList.remove("active"));
+function show(i){
+  if(i<0||i>=sections.length) return;
+  sections.forEach(s=>s.classList.remove("active"));
   sections[i].classList.add("active");
 }
+function next(){ if(index < sections.length-1){ show(++index); } }
 
-function next() {
-  if (index < sections.length - 1) {
-    index++;
-    show(index);
-  }
-}
-
-/* =====================
-   ENVELOPE
-===================== */
-function openEnvelope() {
+function openEnvelope(){
   envelope.classList.add("open");
-  bgm.play().catch(() => {});
-  setTimeout(next, 900);
+  bgm.play().catch(()=>{});
+  setTimeout(next,900);
 }
 
-/* =====================
-   RESPONSES
-===================== */
-function respond(text) {
-  reply.innerText = text;
-  setTimeout(next, 1200);
+function respond(text){
+  reply.innerText=text;
+  setTimeout(next,1200);
 }
 
-/* =====================
-   MEMORY UNLOCK
-===================== */
-function unlock(btn, img) {
-  btn.parentElement.innerHTML = `<img src="${img}" alt="memory">`;
-  setTimeout(next, 1200);
+function unlock(btn,img){
+  btn.parentElement.innerHTML=`<img src="${img}">`;
+  setTimeout(next,1200);
 }
 
-/* =====================
-   HUG
-===================== */
-function hug() {
+function unlockVideo(btn,src){
+  btn.parentElement.innerHTML=`<video src="${src}" autoplay muted playsinline controls></video>`;
+  setTimeout(next,2500);
+}
+
+function hug(){
   hugBox.classList.add("squeeze");
-  hugText.innerText = "Imagine this is me holding you.";
-  setTimeout(next, 1200);
+  hugText.innerText="Imagine this is me holding you.";
+  setTimeout(next,1200);
 }
 
-/* =====================
-   HEART ALIGN (TOUCH + MOUSE)
-===================== */
-const drag = document.getElementById("draggable");
-const target = document.getElementById("target");
+/* Heart drag */
+const drag=document.getElementById("draggable");
+const target=document.getElementById("target");
+let dragging=false;
 
-let dragging = false;
-
-function moveHeart(x, y) {
-  drag.style.left = x - 20 + "px";
-  drag.style.top = y - 20 + "px";
-
-  const dx = drag.offsetLeft - target.offsetLeft;
-  const dy = drag.offsetTop - target.offsetTop;
-
-  if (Math.abs(dx) < 30 && Math.abs(dy) < 30) {
-    alignText.innerText = "See? We always find our way back.";
-    dragging = false;
-    setTimeout(next, 1500);
+function moveHeart(x,y){
+  drag.style.left=x-20+"px";
+  drag.style.top=y-20+"px";
+  if(Math.abs(drag.offsetLeft-target.offsetLeft)<30 &&
+     Math.abs(drag.offsetTop-target.offsetTop)<30){
+    alignText.innerText="See? We always find our way back.";
+    setTimeout(next,1500);
   }
 }
 
-/* Touch */
-drag.addEventListener("touchmove", e => {
-  const t = e.touches[0];
-  moveHeart(t.clientX, t.clientY);
+drag.addEventListener("touchmove",e=>{
+  const t=e.touches[0];
+  moveHeart(t.clientX,t.clientY);
 });
-
-/* Mouse (desktop) */
-drag.addEventListener("mousedown", () => dragging = true);
-document.addEventListener("mousemove", e => {
-  if (dragging) moveHeart(e.clientX, e.clientY);
+drag.addEventListener("mousedown",()=>dragging=true);
+document.addEventListener("mousemove",e=>{
+  if(dragging) moveHeart(e.clientX,e.clientY);
 });
-document.addEventListener("mouseup", () => dragging = false);
+document.addEventListener("mouseup",()=>dragging=false);
 
-/* =====================
-   FIND ME GAME
-===================== */
-let taps = 0;
-
-for (let i = 0; i < 10; i++) {
-  const d = document.createElement("div");
-  d.className = "dot";
-  d.style.left = Math.random() * 80 + "%";
-  d.style.top = Math.random() * 60 + 30 + "%";
-
-  d.onclick = () => {
+/* Find me */
+let taps=0;
+for(let i=0;i<10;i++){
+  const d=document.createElement("div");
+  d.className="dot";
+  d.style.left=Math.random()*80+"%";
+  d.style.top=Math.random()*60+30+"%";
+  d.onclick=()=>{
     taps++;
-    if (taps === 4) {
-      d.innerHTML = "❤️";
-      setTimeout(next, 1200);
-    } else {
-      d.style.opacity = 0;
-    }
+    if(taps===4){ d.innerHTML="❤️"; setTimeout(next,1200); }
+    else d.style.opacity=0;
   };
-
   findme.appendChild(d);
 }
 
-/* =====================
-   FINAL
-===================== */
-function finalUnlock(btn, img) {
-  btn.parentElement.innerHTML = `<img src="${img}" alt="final memory">`;
-
-  setTimeout(() => {
-    curtains.style.display = "block";
+function finalUnlock(btn,img){
+  btn.parentElement.innerHTML=`<img src="${img}">`;
+  setTimeout(()=>{
+    curtains.style.display="block";
     leftCurtain.classList.add("closeLeft");
     rightCurtain.classList.add("closeRight");
-
-    setTimeout(() => {
-      finalText.style.display = "flex";
-    }, 1200);
-  }, 1500);
+    setTimeout(()=>finalText.style.display="flex",1200);
+  },1500);
 }
 
-/* =====================
-   MUSIC TOGGLE
-===================== */
-musicBtn.onclick = () => {
-  if (bgm.paused) {
-    bgm.play();
-    musicBtn.textContent = "🎵";
-  } else {
-    bgm.pause();
-    musicBtn.textContent = "🔇";
-  }
+musicBtn.onclick=()=>{
+  if(bgm.paused){ bgm.play(); musicBtn.textContent="🎵"; }
+  else{ bgm.pause(); musicBtn.textContent="🔇"; }
 };
 </script>
+
+</body>
+</html>
