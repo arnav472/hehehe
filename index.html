@@ -199,8 +199,23 @@ if(prompt("What is your nickname on Instagram? 💗")!==PASSWORD){
 <div id="finalText"><p>I love you, NAME.</p></div>
 
 <script>
+/* DOM references — REQUIRED */
 const sections = document.querySelectorAll("section");
+const envelope = document.getElementById("envelope");
+const bgm = document.getElementById("bgm");
+const reply = document.getElementById("reply");
+const hugBox = document.getElementById("hugBox");
+const hugText = document.getElementById("hugText");
+const alignText = document.getElementById("alignText");
+const findme = document.getElementById("findme");
+const curtains = document.getElementById("curtains");
+const leftCurtain = document.getElementById("leftCurtain");
+const rightCurtain = document.getElementById("rightCurtain");
+const finalText = document.getElementById("finalText");
+const musicBtn = document.getElementById("musicBtn");
+
 let i = 0;
+
 
 function show(n){
   sections.forEach(s => s.classList.remove("active"));
