@@ -140,16 +140,21 @@
         @keyframes l { to { left: 0; } }
         @keyframes r { to { right: 0; } }
 
-        #finalText {
-            position: fixed; inset: 0;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 28px;
-            z-index: 20;
-            animation: fade 1.2s forwards;
-        }
+#finalText {
+    position: fixed; 
+    inset: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* This keeps the lines stacked vertically */
+    text-align: center;     /* This centers the text if it wraps */
+    color: white;
+    font-size: 28px;
+    z-index: 20;
+    animation: fade 1.2s forwards;
+    padding: 20px;          /* Prevents text from hitting the screen edges */
+    line-height: 1.5;       /* Adds a nice gap between your two lines */
+}
         @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
 
         .loading-text { font-size: 14px; color: #ff8fab; margin-top: 5px; }
@@ -195,7 +200,7 @@
 </section>
 
 <section class="memory">
-    <p>Memory 1</p>
+    <p>YAYAYAYY STARTTTT</p>
     <div class="lock" onclick="unlock(this,'p1.jpg','kitna pyaar krte h na ye dono?')">🔒</div>
 </section>
 
@@ -243,8 +248,8 @@
 </section>
 
 <section class="memory">
-    <p>Video 2</p>
-    <div class="lock" onclick="unlock(this,'v2.mp4','🎥',true)">🔒</div>
+    <p>cutu</p>
+    <div class="lock" onclick="unlock(this,'v2.mp4','UYWBGHEDA I LOVE YOUR SMILEEEEE!!',true)">🔒</div>
 </section>
 
 <section class="memory">
@@ -258,28 +263,28 @@
 </section>
 
 <section class="memory">
-    <p>Video 3</p>
-    <div class="lock" onclick="unlock(this,'https://res.cloudinary.com/dpzoaq2ds/video/upload/v1768740076/v3.mp4_jurgrh.mp4','🎥',true)">🔒</div>
+    <p>i am, truly yours</p>
+    <div class="lock" onclick="unlock(this,'https://res.cloudinary.com/dpzoaq2ds/video/upload/v1768740076/v3.mp4_jurgrh.mp4','the only one i care about is with me',true)">🔒</div>
 </section>
 
 <section class="memory">
-    <p>Memory 8</p>
-    <div class="lock" onclick="unlock(this,'p8.jpg','🩷')">🔒</div>
+    <p>HEHEHEHEHHE</p>
+    <div class="lock" onclick="unlock(this,'p8.jpg','i am exactly where i want to be')">🔒</div>
 </section>
 
 <section class="memory">
-    <p>Memory 9</p>
-    <div class="lock" onclick="unlock(this,'p9.jpg','🩷')">🔒</div>
+    <p>mhmmm</p>
+    <div class="lock" onclick="unlock(this,'p9.jpg','you are everything i could ever wish for shatakshi')">🔒</div>
 </section>
 
 <section class="memory">
-    <p>Video 4</p>
-    <div class="lock" onclick="unlock(this,'v4.mp4','🎥',true)">🔒</div>
+    <p>honest reaction everyday</p>
+    <div class="lock" onclick="unlock(this,'v4.mp4','lag to rhi h',true)">🔒</div>
 </section>
 
 <section class="memory">
-    <p>Final Memory</p>
-    <div class="lock" onclick="finalUnlock(this,'p10.jpg','Always you')">🔒</div>
+    <p>Ek last?</p>
+    <div class="lock" onclick="finalUnlock(this,'p10.jpg','Our first pic together (Mere phone mai atleast)')">🔒</div>
 </section>
 
 <div id="curtains">
@@ -288,7 +293,7 @@
 </div>
 
 <div id="finalText">
-    <p>I love you, snowball 🤍</p>
+    <p>I love you, shatakshi 🤍 <br> One year completed, so many more to go</p>
 </div>
 
 <script>
