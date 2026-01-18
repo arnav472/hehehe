@@ -92,10 +92,25 @@ button {
 @keyframes cr { to{right:0;} }
 
 #finalText {
-  position:fixed;inset:0;display:none;
-  justify-content:center;align-items:center;
-  color:white;font-size:28px;
+  position: fixed;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 28px;
+  text-align: center;
+  padding: 24px;
+  z-index: 20;              /* FIX: above curtains */
+  animation: fadeIn 1.2s ease forwards;
 }
+
+/* Soft ending fade */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
 </style>
 </head>
 
