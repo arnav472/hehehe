@@ -205,9 +205,10 @@ if(prompt("What is your nickname on Instagram? 💗")!==PASSWORD){
 </section>
 
 <!-- 7 -->
+/* Find these lines in your HTML and swap the filenames for your new links */
 <section class="memory">
   <p>Video 1</p>
-  <div class="lock" onclick="unlock(this,'v1.mp4','🎥',true)">🔒</div>
+  <div class="lock" onclick="unlock(this,'https://player.cloudinary.com/embed/?cloud_name=dpzoaq2ds&public_id=v1.mp4_pdtmzu','🎥',true)">🔒</div>
 </section>
 
 <!-- 8 -->
@@ -262,9 +263,10 @@ if(prompt("What is your nickname on Instagram? 💗")!==PASSWORD){
 </section>
 
 <!-- 16 -->
+/* Find these lines in your HTML and swap the filenames for your new links */
 <section class="memory">
   <p>Video 3</p>
-  <div class="lock" onclick="unlock(this,'v3.mp4','🎥',true)">🔒</div>
+  <div class="lock" onclick="unlock(this,'https://res.cloudinary.com/dpzoaq2ds/video/upload/v1768740076/v3.mp4_jurgrh.mp4','🎥',true)">🔒</div>
 </section>
 
 <!-- 17 -->
@@ -341,13 +343,29 @@ function mood(t){
   reply.appendChild(b);
 }
 
-function unlock(el,src,cap,isVideo=false){
-  el.dataset.t=(+el.dataset.t||0)+1;
-  if(el.dataset.t<3) return;
-  el.parentElement.innerHTML =
-    isVideo
-    ? `<video src="${src}" controls></video><p>${cap}</p><button onclick="next()">Next</button>`
-    : `<img src="${src}"><p>${cap}</p><button onclick="next()">Next</button>`;
+function unlock(el, src, cap, isVideo = false) {
+  el.dataset.t = (+el.dataset.t || 0) + 1;
+  
+  // Only unlock after 3 clicks
+  if (el.dataset.t < 3) return;
+
+  if (isVideo) {
+    el.parentElement.innerHTML = `
+      <video 
+        src="${src}" 
+        controls 
+        playsinline 
+        preload="auto" 
+        style="width:90%; border-radius:14px; margin-top:12px;">
+      </video>
+      <p>${cap}</p>
+      <button onclick="next()">Next</button>`;
+  } else {
+    el.parentElement.innerHTML = `
+      <img src="${src}" style="max-width:90%; border-radius:14px; margin-top:12px;">
+      <p>${cap}</p>
+      <button onclick="next()">Next</button>`;
+  }
 }
 
 function hug(){
