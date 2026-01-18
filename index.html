@@ -218,7 +218,19 @@ function next(){
 function openEnvelope(){
   envelope.classList.add("open");
   bgm.play().catch(()=>{});
+
+  // add Next button after opening
+  const btn = document.createElement("button");
+  btn.innerText = "Next";
+  btn.onclick = next;
+
+  // prevent adding twice
+  if(!document.getElementById("envNext")){
+    btn.id = "envNext";
+    envelope.parentElement.appendChild(btn);
+  }
 }
+
 
 /* Mood */
 function respond(t){
