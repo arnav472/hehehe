@@ -11,21 +11,15 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{
     font-family:'Inter',sans-serif;
-    background:radial-gradient(circle at top,#fff0f6,#fde2ea);
-    overflow:hidden;
     text-align:center;
+    overflow:hidden;
+    background:
+      linear-gradient(rgba(255,240,246,.85), rgba(253,226,234,.85)),
+      url("PASTE_BACKGROUND_IMAGE_URL_HERE");
+    background-size:cover;
+    background-position:center;
 }
 
-    .memory img,
-.memory video {
-    max-height: 55vh;
-    width: auto;
-    max-width: 100%;
-    object-fit: contain;
-}
-
-
-/* ---------- SECTIONS ---------- */
 section{
     position:fixed;
     inset:0;
@@ -54,7 +48,6 @@ button{
 }
 button:active{transform:scale(.95)}
 
-/* ---------- MUSIC ---------- */
 #musicBtn{
     position:fixed;
     top:16px;right:16px;
@@ -73,7 +66,6 @@ button:active{transform:scale(.95)}
     100%{box-shadow:0 0 0 0 rgba(255,93,143,0)}
 }
 
-/* ---------- ENVELOPE ---------- */
 #envelope{
     width:280px;height:180px;
     background:#ffd6e5;
@@ -106,36 +98,38 @@ button:active{transform:scale(.95)}
 .open #flap{transform:rotateX(-160deg)}
 .open #letter{opacity:1;transform:translateY(-10px)}
 
-/* ---------- MEMORY ---------- */
 .memory{
     width:90%;
     max-width:420px;
-    background:rgba(255,255,255,.65);
+    background:rgba(255,255,255,.7);
     border-radius:20px;
     padding:22px;
     box-shadow:0 20px 50px rgba(0,0,0,.12);
 }
 .lock{font-size:44px;cursor:pointer}
 
-/* ---------- HEART ALIGN ---------- */
-#alignArea{position:relative;height:200px;width:100%}
-.align-heart{position:absolute;font-size:40px}
-#target{top:80px;left:50%;transform:translateX(-50%)}
-#drag{top:20px;left:20px;touch-action:none}
-
-/* ---------- FIND ME ---------- */
+/* FIND HEART GAME */
 .dot{
-    width:20px;height:20px;
+    width:18px;height:18px;
     background:#ff8fab;
     border-radius:50%;
     position:absolute;
+    animation:float 4s ease-in-out infinite alternate;
+}
+@keyframes float{
+    from{transform:translateY(0)}
+    to{transform:translateY(-25px)}
+}
+#heartPop{
+    font-size:48px;
+    animation:pop .6s ease forwards;
+}
+@keyframes pop{
+    from{transform:scale(0)}
+    to{transform:scale(1)}
 }
 
-/* ---------- YES NO ---------- */
-#choices{display:flex;gap:16px}
-#noBtn{transition:.2s ease}
-
-/* ---------- CURTAINS ---------- */
+/* CURTAINS */
 #curtains{position:fixed;inset:0;display:none;z-index:40}
 .curtain{position:absolute;width:50%;height:100%;background:#111}
 #left{left:-50%}
@@ -164,174 +158,185 @@ button:active{transform:scale(.95)}
 
 <button id="musicBtn">🎵</button>
 
-<script>
-/* PASSWORD EASTER EGG */
-const PASSWORD="KUCHIPUCHIIIII";
-let tries=0;
-while(true){
-    const x=prompt("What is your nickname on Instagram? 💗");
-    if(x===PASSWORD||tries>=2)break;
-    alert(tries===0?"hmm 🤍":"try again cutu");
-    tries++;
-}
-</script>
-
-<audio id="bgm" loop preload="auto">
-<source src="https://res.cloudinary.com/dpzoaq2ds/video/upload/v1768814816/music_qimbs8.mp3" type="audio/mpeg">
+<audio id="bgm" loop>
+  <source src="https://res.cloudinary.com/dpzoaq2ds/video/upload/v1768814816/music_qimbs8.mp3" type="audio/mpeg">
 </audio>
 
-<!-- INTRO -->
+<audio id="heartBeat" preload="auto">
+  <source src="https://res.cloudinary.com/dpzoaq2ds/video/upload/v1700000000/heartbeat.mp3" type="audio/mpeg">
+</audio>
+
 <section class="active">
-    <div id="envelope">
-        <div id="flap"></div>
-        <div id="letter">for you, shatakshi 🤍</div>
-    </div>
-    <button onclick="openEnvelope()">Open</button>
+  <div id="envelope">
+    <div id="flap"></div>
+    <div id="letter">for you, shatakshi 🤍</div>
+  </div>
+  <button onclick="openEnvelope()">Open</button>
 </section>
 
 <section>
-    <p id="greet"></p>
-    <button onclick="next()">Next</button>
+  <p id="greet"></p>
+  <button onclick="next()">Next</button>
 </section>
 
 <section>
-    <p>do you love me?</p>
-    <div id="choices">
-        <button onclick="yes()">Yes</button>
-        <button id="noBtn" onclick="no()">No</button>
-    </div>
+  <p>do you love me?</p>
+  <div id="choices">
+    <button onclick="yes()">Yes</button>
+    <button id="noBtn" onclick="no()">No</button>
+  </div>
 </section>
-
-<!-- MEMORIES (10 pics + 4 vids) -->
-<section class="memory"><p>START</p><div class="lock" onclick="unlock(this,'p1.jpg','kitna pyaar krte h na ye dono?')">🔒</div></section>
-<section class="memory"><p>Jumpscare</p><div class="lock" onclick="unlock(this,'p2.jpg','kuchipuchi meri')">🔒</div></section>
-<section><button onclick="hug()">Hug me</button><p id="hugText"></p></section>
-<section class="memory"><p>Volume up</p><div class="lock" onclick="unlock(this,'v1.mp4','😭😭🫶🏻',true)">🔒</div></section>
-
-<section>
-<p>hehe</p>
-<div id="alignArea">
-<div id="target" class="align-heart">❤️</div>
-<div id="drag" class="align-heart">❤️</div>
-</div>
-<p id="alignText"></p>
-</section>
-
-<section class="memory"><p>Stuff</p><div class="lock" onclick="unlock(this,'p3.jpg','😭🫶🏻')">🔒</div></section>
-<section class="memory"><p>Favs</p><div class="lock" onclick="unlock(this,'p4.jpg','promise?')">🔒</div></section>
-
-<section id="findme"><p>Find the hearts</p></section>
-
-<section class="memory"><p>Look</p><div class="lock" onclick="unlock(this,'p5.jpg','melting')">🔒</div></section>
-<section class="memory"><p>Cutu</p><div class="lock" onclick="unlock(this,'v2.mp4','SMILEEEE',true)">🔒</div></section>
-<section class="memory"><p>Me</p><div class="lock" onclick="unlock(this,'p6.jpg','pretty decent')">🔒</div></section>
-<section class="memory"><p>Home</p><div class="lock" onclick="unlock(this,'p7.jpg','meri cutu')">🔒</div></section>
-<section class="memory"><p>Yours</p><div class="lock" onclick="unlock(this,'v3.mp4','only you',true)">🔒</div></section>
-<section class="memory"><p>Here</p><div class="lock" onclick="unlock(this,'p8.jpg','exactly')">🔒</div></section>
-<section class="memory"><p>Everything</p><div class="lock" onclick="unlock(this,'p9.jpg','everything')">🔒</div></section>
-<section class="memory"><p>Everyday</p><div class="lock" onclick="unlock(this,'v4.mp4','lag rhi',true)">🔒</div></section>
 
 <section class="memory">
-<p>Last?</p>
-<div class="lock" onclick="finalUnlock(this,'p10.jpg','first pic')">🔒</div>
+  <p>START</p>
+  <div class="lock" onclick="unlock(this,'p1.jpg','kitna pyaar krte h na ye dono?')">🔒</div>
+</section>
+
+<section class="memory">
+  <p>Volume up</p>
+  <div class="lock" onclick="unlock(this,
+    'https://res.cloudinary.com/dpzoaq2ds/video/upload/v1768740056/v1.mp4_pdtmzu.mp4',
+    '😭🫶🏻',
+    true)">🔒</div>
+</section>
+
+<section id="findme">
+  <p>Find the hearts</p>
+</section>
+
+<section class="memory">
+  <p>Only you</p>
+  <div class="lock" onclick="unlock(this,
+    'https://res.cloudinary.com/dpzoaq2ds/video/upload/v1768740058/v3.mp4_z6wfj9.mp4',
+    'only you',
+    true)">🔒</div>
+</section>
+
+<section class="memory">
+  <p>Last?</p>
+  <div class="lock" onclick="finalUnlock()">🔒</div>
 </section>
 
 <div id="curtains">
-<div id="left" class="curtain"></div>
-<div id="right" class="curtain"></div>
+  <div id="left" class="curtain"></div>
+  <div id="right" class="curtain"></div>
 </div>
 
 <div id="finalText">
-<p>I love you, shatakshi 🤍<br>one year, infinite us</p>
+  <p>I love you, shatakshi 🤍<br>one year, infinite us</p>
 </div>
 
 <script>
 const sections=[...document.querySelectorAll("section")];
+let i=0,noCount=0;
+
 const bgm=document.getElementById("bgm");
 const musicBtn=document.getElementById("musicBtn");
-const envelope=document.getElementById("envelope");
-const finalText=document.getElementById("finalText");
-let i=0,fading=null;
+const heartSound=document.getElementById("heartBeat");
 
 /* greeting */
 const h=new Date().getHours();
-document.getElementById("greet").innerText=h<12?"good morning meri cutu":h<18?"hello my favorite human":"come here, long day?";
+document.getElementById("greet").innerText=
+  h<12?"good morning meri cutu":h<18?"hello my favorite human":"come here, long day?";
 
-/* shuffle memories */
-sections.filter(s=>s.classList.contains("memory")).sort(()=>Math.random()-.5).forEach(s=>s.parentNode.appendChild(s));
+/* music toggle */
+musicBtn.onclick=()=>{
+  if(bgm.paused){
+    bgm.volume=.95; bgm.play(); musicBtn.classList.add("playing");
+  }else{
+    bgm.pause(); musicBtn.classList.remove("playing");
+  }
+};
 
-function show(n){sections.forEach(s=>s.classList.remove("active"));sections[n].classList.add("active")}
-function next(){if(i<sections.length-1)show(++i)}
-
-/* music */
-function fadeIn(){
-clearInterval(fading);bgm.volume=0;bgm.play();musicBtn.classList.add("playing");
-fading=setInterval(()=>bgm.volume<.95?bgm.volume+=.05:clearInterval(fading),80)
-}
-function fadeOut(){
-clearInterval(fading);
-fading=setInterval(()=>{if(bgm.volume>.05)bgm.volume-=.05;else{bgm.pause();musicBtn.classList.remove("playing");clearInterval(fading)}},80)
-}
-musicBtn.onclick=()=>bgm.paused?fadeIn():fadeOut();
-
-function openEnvelope(){envelope.classList.add("open");fadeIn();setTimeout(next,1300)}
-
-/* yes no */
-let scale=1;
-function no(){scale-=.15;document.getElementById("noBtn").style.transform=`scale(${scale})`}
-function yes(){alert("hehe I know 🤍");next()}
-
-/* unlock */
-function unlock(el, src, cap, isVideo = false) {
-    const media = isVideo
-        ? `<video src="${src}" controls playsinline
-            onplay="bgm.volume=0.3"
-            onpause="bgm.volume=0.95"
-            style="max-height:55vh;max-width:100%;border-radius:14px;"></video>`
-        : `<img src="${src}" style="max-height:55vh;max-width:100%;border-radius:14px;">`;
-
-    el.parentElement.innerHTML = `
-        <div style="
-            display:flex;
-            flex-direction:column;
-            align-items:center;
-            gap:12px;
-            max-height:100%;
-        ">
-            ${media}
-            <p>${cap}</p>
-            <button onclick="next()">Next</button>
-        </div>
-    `;
+function stopVideos(){
+  document.querySelectorAll("video").forEach(v=>{
+    v.pause(); v.currentTime=0;
+  });
+  bgm.volume=.95;
 }
 
-/* hug */
-function hug(){document.getElementById("hugText").innerHTML="This is me holding you.<br><button onclick='next()'>Next</button>"}
-
-/* heart drag */
-let heartDone=false;
-const drag=document.getElementById("drag"),target=document.getElementById("target");
-drag.addEventListener("touchmove",e=>{
-const t=e.touches[0];
-drag.style.left=t.clientX-20+"px";
-drag.style.top=t.clientY-20+"px";
-if(!heartDone&&Math.abs(drag.offsetLeft-target.offsetLeft)<40){
-heartDone=true;
-document.getElementById("alignText").innerHTML="we always find our way back<br><button onclick='next()'>Next</button>"
+function show(n){
+  stopVideos();
+  sections.forEach(s=>s.classList.remove("active"));
+  sections[n].classList.add("active");
 }
-});
 
-/* find me */
+function next(){ if(i<sections.length-1) show(++i); }
+
+function openEnvelope(){
+  document.getElementById("envelope").classList.add("open");
+  bgm.volume=0; bgm.play();
+  setTimeout(()=>bgm.volume=.95,300);
+  setTimeout(next,1300);
+}
+
+function no(){
+  noCount++;
+  if(noCount>=6){
+    document.getElementById("noBtn").style.display="none";
+  }else{
+    document.getElementById("noBtn").style.transform=`scale(${1-noCount*0.12})`;
+  }
+}
+function yes(){ next(); }
+
+function unlock(el,src,cap,isVideo=false){
+  const media=isVideo
+    ? `<video src="${src}" controls playsinline
+        onplay="bgm.volume=0.3"
+        onpause="bgm.volume=0.95"
+        onended="bgm.volume=0.95"
+        style="max-height:55vh;border-radius:14px"></video>`
+    : `<img src="${src}" style="max-height:55vh;border-radius:14px">`;
+
+  el.parentElement.innerHTML=media+`<p>${cap}</p><button onclick="next()">Next</button>`;
+}
+
+function finalUnlock(){
+  document.getElementById("curtains").style.display="block";
+  document.getElementById("left").classList.add("closeLeft");
+  document.getElementById("right").classList.add("closeRight");
+  setTimeout(()=>{
+    document.getElementById("finalText").style.display="flex";
+  },1200);
+}
+
+/* FIND HEART GAME */
 const fm=document.getElementById("findme");
-let taps=0;
-for(let j=0;j<10;j++){
-const d=document.createElement("div");
-d.className="dot";
-d.style.left=Math.random()*80+"%";
-d.style.top=Math.random()*60+20+"%";
-d.onclick=()=>{taps++;d.style.opacity=0;if(taps===4)fm.innerHTML+="<button onclick='next()'>Next</button>"};
-fm.appendChild(d);
+let taps=0, played=false;
+
+for(let j=0;j<8;j++){
+  const d=document.createElement("div");
+  d.className="dot";
+  d.style.left=Math.random()*80+"%";
+  d.style.top=Math.random()*60+20+"%";
+  d.onclick=()=>{
+    taps++;
+    d.remove();
+    if(taps===4){
+      if(!played){
+        heartSound.volume=0.5;
+        heartSound.play();
+        played=true;
+      }
+      fm.innerHTML+=`<div id="heartPop">❤️</div><br><button onclick="next()">Next</button>`;
+    }
+  };
+  fm.appendChild(d);
 }
+
+/* FINAL TEXT EASTER EGG */
+let secretTaps=0;
+document.getElementById("finalText").addEventListener("click",()=>{
+  secretTaps++;
+  if(secretTaps===5){
+    const msg=document.createElement("p");
+    msg.style.fontSize="18px";
+    msg.style.marginTop="12px";
+    msg.innerText="you’re my safest place 🤍";
+    document.getElementById("finalText").appendChild(msg);
+  }
+});
 </script>
 
 </body>
