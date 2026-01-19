@@ -16,6 +16,15 @@ body{
     text-align:center;
 }
 
+    .memory img,
+.memory video {
+    max-height: 55vh;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+
 /* ---------- SECTIONS ---------- */
 section{
     position:fixed;
@@ -273,18 +282,27 @@ function no(){scale-=.15;document.getElementById("noBtn").style.transform=`scale
 function yes(){alert("hehe I know 🤍");next()}
 
 /* unlock */
-function unlock(el,src,cap,isVideo=false){
-const media=isVideo?`<video src="${src}" controls playsinline onplay="bgm.volume=.3" onpause="bgm.volume=.95"></video>`:`<img src="${src}">`;
-el.parentElement.innerHTML=`${media}<p>${cap}</p><button onclick="next()">Next</button>`
-}
-function finalUnlock(el,src,cap){
-el.parentElement.innerHTML=`<img src="${src}"><p>${cap}</p><button onclick="finish()">Finish</button>`
-}
-function finish(){
-document.getElementById("curtains").style.display="block";
-document.getElementById("left").classList.add("closeLeft");
-document.getElementById("right").classList.add("closeRight");
-setTimeout(()=>finalText.style.display="flex",1200)
+function unlock(el, src, cap, isVideo = false) {
+    const media = isVideo
+        ? `<video src="${src}" controls playsinline
+            onplay="bgm.volume=0.3"
+            onpause="bgm.volume=0.95"
+            style="max-height:55vh;max-width:100%;border-radius:14px;"></video>`
+        : `<img src="${src}" style="max-height:55vh;max-width:100%;border-radius:14px;">`;
+
+    el.parentElement.innerHTML = `
+        <div style="
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            gap:12px;
+            max-height:100%;
+        ">
+            ${media}
+            <p>${cap}</p>
+            <button onclick="next()">Next</button>
+        </div>
+    `;
 }
 
 /* hug */
